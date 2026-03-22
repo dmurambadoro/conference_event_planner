@@ -3,8 +3,9 @@ import "./ConferenceEvent.css";
 import TotalCost from "./TotalCost";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementQuantity, decrementQuantity } from "./venueSlice";
-import addons from './store.js';
 import { decrementAvQuantity, incrementAvQuantity } from "./avSlice";
+import { toggleMealSelection } from "./mealsSlice";
+
 
 const ConferenceEvent = () => {
     const [showItems, setShowItems] = useState(false);
@@ -82,6 +83,7 @@ const ConferenceEvent = () => {
         }
         return totalCost;
     };
+    
     const venueTotalCost = calculateTotalCost("venue");
     const avTotalCost = calculateTotalCost("av");
     const mealsTotalCost = calculateTotalCost("meals");
