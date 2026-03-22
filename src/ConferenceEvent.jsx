@@ -56,6 +56,27 @@ const ConferenceEvent = () => {
 
     const getItemsFromTotalCost = () => {
         const items = [];
+        venueItems.forEach(item => {
+            if (item.quanity > 0) {
+                items.push({...item, type: "venue" });
+            }
+        });
+        avItems.forEach(item => {
+            if (item.quanity > 0 && 
+                !items.some(i => i.name === item.name && i.type === "av"))
+                {
+                    items.push({...item, type: "meals"});
+            }
+        });
+
+        mealsItems.forEach(item => {
+            const itemForDisplay = { ...item, type: "meals" };
+            if(item.numberOfPeople) {
+                itemForDisplay.numberOfPeople = numberOfPeople;
+            }
+            items.push(itemForDisplay);
+        });
+        return items;
     };
 
     const items = getItemsFromTotalCost();
@@ -75,11 +96,12 @@ const ConferenceEvent = () => {
                 totalCost += item.cost * item.quantity;
             });
         }
-        if (section === "meals"){
-            mealItems.forEach(() => {
-                totalCost += item.cost * item.quantity;
+        else if (section === "meals"){
+            mealsItems.forEach((item) => {
+                if (item.selected) {
+                    totalCost += item.cost * item.quantity;
+                }
             })
-            totalCost += item.cost * item.quantity;
         }
         return totalCost;
     };
@@ -95,6 +117,13 @@ const ConferenceEvent = () => {
             }
         }
     }
+
+    const totalCosts = {
+        venue: venueTotalCost,
+        av: avTotalCost,
+        meals: mealsTotalCost,
+    };
+    
 
     return (
         <>
@@ -256,20 +285,18 @@ const ConferenceEvent = () => {
                                     })}
                                 </div>
 
-                                <div className="total_cost">Total Cost: </div>
+                                <div className="total_cost">Total Cost: {mealsTotalCost}</div>
 
                             </div>
                         </div>
                     ) : (
                         <div className="total_amount_detail">
-                            <TotalCost totalCosts={totalCosts} handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />
+                            {/*<TotalCost totalCosts={ totalCosts } handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />*/}
+                            <TotalCost totalCosts={ totalCosts } ItemsDisplay={() => <ItemsDisplay items={items} />} />
+
                         </div>
                     )
                 }
-
-
-
-
             </div>
         </>
 
