@@ -96,7 +96,7 @@ const ConferenceEvent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map((item, index) => (
+                        {items.map((item, index) => (  //use of round brackets represents an implicit return else use " => { return <tr>...</tr>; }"
                             <tr key = {index}>
                                 <td>{item.name}</td>
                                 <td>${item.cost}</td>
@@ -151,8 +151,7 @@ const ConferenceEvent = () => {
         venue: venueTotalCost,
         av: avTotalCost,
         meals: mealsTotalCost,
-    };
-    
+    };    
 
     return (
         <>
@@ -320,7 +319,6 @@ const ConferenceEvent = () => {
                         </div>
                     ) : (
                         <div className="total_amount_detail">
-                            {/*<TotalCost totalCosts={ totalCosts } handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />*/}
                             <TotalCost totalCosts={ totalCosts } ItemsDisplay={() => <ItemsDisplay items={items} />} />
 
                         </div>
