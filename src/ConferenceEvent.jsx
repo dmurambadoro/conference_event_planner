@@ -58,20 +58,19 @@ const ConferenceEvent = () => {
         const items = [];
         venueItems.forEach(item => {
             if (item.quantity > 0) {
-                items.push({...item, type: "venue" });
+                items.push({ ...item, type: "venue" });
             }
         });
         avItems.forEach(item => {
-            if (item.quantity > 0 && 
-                !items.some(i => i.name === item.name && i.type === "av"))
-                {
-                    items.push({...item, type: "meals"});
+            if (item.quantity > 0 &&
+                !items.some(i => i.name === item.name && i.type === "av")) {
+                items.push({ ...item, type: "meals" });
             }
         });
 
         mealsItems.forEach(item => {
             const itemForDisplay = { ...item, type: "meals" };
-            if(item.numberOfPeople) {
+            if (item.numberOfPeople) {
                 itemForDisplay.numberOfPeople = numberOfPeople;
             }
             items.push(itemForDisplay);
@@ -97,7 +96,7 @@ const ConferenceEvent = () => {
                     </thead>
                     <tbody>
                         {items.map((item, index) => (  //use of round brackets represents an implicit return else use " => { return <tr>...</tr>; }"
-                            <tr key = {index}>
+                            <tr key={index}>
                                 <td>{item.name}</td>
                                 <td>${item.cost}</td>
                                 <td>
@@ -113,6 +112,7 @@ const ConferenceEvent = () => {
             </div>
         </>
     };
+
     const calculateTotalCost = (section) => {
         let totalCost = 0;
         if (section === "venue") {
@@ -125,7 +125,7 @@ const ConferenceEvent = () => {
                 totalCost += item.cost * item.quantity;
             });
         }
-        else if (section === "meals"){
+        else if (section === "meals") {
             mealsItems.forEach((item) => {
                 if (item.selected) {
                     totalCost += item.cost * item.quantity;
@@ -134,7 +134,7 @@ const ConferenceEvent = () => {
         }
         return totalCost;
     };
-    
+
     const venueTotalCost = calculateTotalCost("venue");
     const avTotalCost = calculateTotalCost("av");
     const mealsTotalCost = calculateTotalCost("meals");
@@ -151,7 +151,7 @@ const ConferenceEvent = () => {
         venue: venueTotalCost,
         av: avTotalCost,
         meals: mealsTotalCost,
-    };    
+    };
 
     return (
         <>
@@ -241,9 +241,9 @@ const ConferenceEvent = () => {
                                 <div className="addons_selection">
                                     {
                                         avItems.map((item, index) => {
-                                       
+
                                             <div className="av_data venue_main" key={index}>
-                                                
+
                                                 <div className="img">
                                                     < img src={item.img} alt={item.name} />
                                                 </div>
@@ -255,15 +255,15 @@ const ConferenceEvent = () => {
                                                 <div>
                                                     ${item.cost}
                                                 </div>
-                                                
+
                                                 <div className="addons_btn">
                                                     <button className="btn-warning" onClick={() => handleDecrementAvQuantity(item.id)}> #ndash; </button> {/* try index */}
                                                     <span className="quantity-value">{item.quantity}</span>
                                                     <button className="btn-success" onClick={() => handleIncrementAvQuantity(item.id)}> #43; </button>
                                                 </div>
-                                                
+
                                             </div>
-                                            
+
                                         })
                                     }
 
@@ -299,12 +299,12 @@ const ConferenceEvent = () => {
 
                                 <div className="meal_selection">
                                     {mealsItems.map((item) => {
-                                        <div className="meal_item" key={index} style={{padding: 15}}>
+                                        <div className="meal_item" key={index} style={{ padding: 15 }}>
                                             <div class className="inner">
-                                                <input type="checkbox" 
-                                                        id={`meal_${index}`} 
-                                                        checked={item.selected}
-                                                        onChange={() => handleMealSelection(index)}
+                                                <input type="checkbox"
+                                                    id={`meal_${index}`}
+                                                    checked={item.selected}
+                                                    onChange={() => handleMealSelection(index)}
                                                 />
                                                 <label htmlFor={`meal_${index}`}>item.name</label>
                                             </div>
@@ -319,7 +319,7 @@ const ConferenceEvent = () => {
                         </div>
                     ) : (
                         <div className="total_amount_detail">
-                            <TotalCost totalCosts={ totalCosts } ItemsDisplay={() => <ItemsDisplay items={items} />} />
+                            <TotalCost totalCosts={totalCosts} ItemsDisplay={() => <ItemsDisplay items={items} />} />
 
                         </div>
                     )
